@@ -5,7 +5,7 @@ import com.mmall.common.ServerResponse;
 import com.mmall.common.TokenCache;
 import com.mmall.dao.UserMapper;
 import com.mmall.pojo.User;
-import com.mmall.service.IUesrService;
+import com.mmall.service.IUserService;
 import com.mmall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.UUID;
 /**
  */
 @Service("iUserService")//向上注入时，与Controller调用的名称要对应
-public class UserServiceImpl implements IUesrService {
+public class UserServiceImpl implements IUserService {
 
     @Autowired
     private UserMapper userMapper;

@@ -5,7 +5,7 @@ import com.mmall.common.Const;
 import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
-import com.mmall.service.IUesrService;
+import com.mmall.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     //注入IUserService
     @Autowired
-    private IUesrService iUesrService;
+    private IUserService iUserService;
     /**
      * 用户登录
      * @param username
@@ -31,7 +31,7 @@ public class UserController {
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session){
         //调用service方法
-        ServerResponse<User> response = iUesrService.login(username,password);
+        ServerResponse<User> response = iUserService.login(username,password);
         if (response.isSuccess()){
             /**
              * 如果登录成功，就把用户放入session
@@ -58,7 +58,7 @@ public class UserController {
     @RequestMapping(value = "regist.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> register(User user) {
-        return iUesrService.register(user);
+        return iUserService.register(user);
     }
 
     /**
@@ -70,7 +70,7 @@ public class UserController {
     @RequestMapping(value = "check.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> checkValid(String str,String type){
-        return iUesrService.checkValid(str, type);
+        return iUserService.checkValid(str, type);
     }
 
     @RequestMapping(value = "getuserinfo.do",method = RequestMethod.POST)
@@ -86,19 +86,19 @@ public class UserController {
     @RequestMapping(value = "forget_get_question.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetGetQuestion(String username) {
-        return iUesrService.selectquestion(username);
+        return iUserService.selectquestion(username);
     }
 
     @RequestMapping(value = "forget_check_answer.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> forgetCheckAnswer(String username,String question,String answer) {
-        return iUesrService.checkAnswer(username, question, answer);
+        return iUserService.checkAnswer(username, question, answer);
     }
 
     @RequestMapping(value = "forget_reset_pwd.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> fogetResetPwd(String username,String passwdNew,String forgetToken){
-        return iUesrService.fogetResetPwd(username,passwdNew,forgetToken);
+        return iUserService.fogetResetPwd(username,passwdNew,forgetToken);
     }
 
     @RequestMapping(value = "reset_pwd.do",method = RequestMethod.POST)
@@ -108,7 +108,7 @@ public class UserController {
         if (user == null) {
             return ServerResponse.createByErrorMsg("用户未登录！！");
         }
-        return iUesrService.resetPasswd(oldPassword,newPassword,user);
+        return iUserService.resetPasswd(oldPassword,newPassword,user);
     }
 
     @RequestMapping(value = "update_info.do",method = RequestMethod.POST)
@@ -120,7 +120,7 @@ public class UserController {
         }
         user.setId(currentuser.getId());//防止id变化
         user.setUsername(currentuser.getUsername());//uesrname也不能更新
-        ServerResponse<User> response = iUesrService.updateInfo(user);
+        ServerResponse<User> response = iUserService.updateInfo(user);
         if (response.isSuccess()) {
             session.setAttribute(Const.CURRENT_USER,response.getData());
         }
@@ -134,7 +134,7 @@ public class UserController {
         if (currentuser == null){
             return ServerResponse.createByErrorCodeMsg(ResponseCode.NEED_LOGIN.getCode(),"未登录需要登录！");
         }
-        return iUesrService.getInfo(currentuser.getId());
+        return iUserService.getInfo(currentuser.getId());
     }
 
 }

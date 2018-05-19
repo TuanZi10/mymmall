@@ -22,4 +22,14 @@ public interface CartMapper {
     int updateByPrimaryKey(Cart record);
 
     Cart selectByProductIdUserId(@Param("userId") Integer userId, @Param("productId") Integer productId);
+
+    int selectCartProductCheckedStatusByUserId(Integer userId);
+
+    int deleteByUserIdProductIds(@Param("productId") Integer productId, @Param("productIdList") List<String> productIdList);
+
+    int checkedOrunCheckedProduct(@Param("userId") Integer userId, @Param("productId") Integer productId,@Param("checked") Integer checked);
+
+    int selectCartProductCount(@Param("userId") Integer userId);
+
+    List<Cart> selectCheckedCartByUserId(Integer userId);
 }

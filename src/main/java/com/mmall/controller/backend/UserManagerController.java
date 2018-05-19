@@ -3,7 +3,7 @@ package com.mmall.controller.backend;
 import com.mmall.common.Const;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
-import com.mmall.service.IUesrService;
+import com.mmall.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +18,11 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/manage/user")
 public class UserManagerController {
     @Autowired
-    private IUesrService iUesrService;
+    private IUserService iUserService;
 
     @RequestMapping(value = "login.do",method = RequestMethod.POST)
     public ServerResponse<User> login(String username, String password, HttpSession session){
-        ServerResponse<User> response = iUesrService.login(username,password);
+        ServerResponse<User> response = iUserService.login(username,password);
         if (response.isSuccess()){
             User user = response.getData();
             if (user.getRole() == Const.Role.ROLE_ADMIN){

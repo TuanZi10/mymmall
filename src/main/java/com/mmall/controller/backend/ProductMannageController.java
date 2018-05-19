@@ -9,7 +9,7 @@ import com.mmall.pojo.Product;
 import com.mmall.pojo.User;
 import com.mmall.service.IFileService;
 import com.mmall.service.IProductService;
-import com.mmall.service.IUesrService;
+import com.mmall.service.IUserService;
 import com.mmall.util.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,7 @@ import java.util.Map;
 public class ProductMannageController {
 
     @Autowired
-    IUesrService iUesrService;
+    IUserService iUserService;
     @Autowired
     IProductService iProductService;
     @Autowired
@@ -49,7 +49,7 @@ public class ProductMannageController {
         if (user == null){
             return ServerResponse.createByErrorCodeMsg(ResponseCode.NEED_LOGIN.getCode(),"用户未登录或不是管理员,请登录管理员！");
         }
-        if (iUesrService.checkAdminRole(user).isSuccess()){
+        if (iUserService.checkAdminRole(user).isSuccess()){
             return iProductService.saveOrUpdateProduct(product);
         }else{
             return ServerResponse.createByErrorMsg("无权操作！");
@@ -63,7 +63,7 @@ public class ProductMannageController {
        if (user == null){
            return ServerResponse.createByErrorCodeMsg(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
        }
-       if (iUesrService.checkAdminRole(user).isSuccess()){
+       if (iUserService.checkAdminRole(user).isSuccess()){
            return iProductService.setSaleStatus(productId,status);
        }
         return ServerResponse.createByErrorMsg("更新产品状态失败！");
@@ -76,7 +76,7 @@ public class ProductMannageController {
         if (user == null){
             return ServerResponse.createByErrorCodeMsg(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
-        if (iUesrService.checkAdminRole(user).isSuccess()){
+        if (iUserService.checkAdminRole(user).isSuccess()){
             return iProductService.manageProductDetail(productId);
         }
         return ServerResponse.createByErrorMsg("更新产品状态失败！");
@@ -89,7 +89,7 @@ public class ProductMannageController {
         if (user == null){
             return ServerResponse.createByErrorCodeMsg(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
-        if (iUesrService.checkAdminRole(user).isSuccess()){
+        if (iUserService.checkAdminRole(user).isSuccess()){
             return iProductService.getProductList(pageNum,pageSize);
         }
         return ServerResponse.createByErrorMsg("更新产品状态失败！");
@@ -102,7 +102,7 @@ public class ProductMannageController {
         if (user == null){
             return ServerResponse.createByErrorCodeMsg(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
-        if (iUesrService.checkAdminRole(user).isSuccess()){
+        if (iUserService.checkAdminRole(user).isSuccess()){
             iProductService.searchProduct(productName,productId,pageNum,pageSize);
         }
         return ServerResponse.createByErrorMsg("更新产品状态失败！");
@@ -116,7 +116,7 @@ public class ProductMannageController {
         if (user == null){
             return ServerResponse.createByErrorCodeMsg(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
-        if (iUesrService.checkAdminRole(user).isSuccess()){
+        if (iUserService.checkAdminRole(user).isSuccess()){
             String path = request.getSession().getServletContext().getRealPath("upload");
             String targetFileName = iFileService.upload(file,path);
             String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+targetFileName;
@@ -141,7 +141,7 @@ public class ProductMannageController {
             resultMap.put("msg","请登录管理员！");
             return resultMap;
         }
-        if (iUesrService.checkAdminRole(user).isSuccess()){
+        if (iUserService.checkAdminRole(user).isSuccess()){
             String path = request.getSession().getServletContext().getRealPath("upload");
             String targetFileName = iFileService.upload(file,path);
             if (StringUtils.isEmpty(targetFileName)){
